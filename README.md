@@ -6,11 +6,9 @@ Produkte werden nie gelöscht, sondern als **VERBRAUCHT** oder **WEGGEWORFEN** m
 
 **Stack:** Java 21 · Spring Boot 3.5 · Maven · JPA/Hibernate · H2 (Entwicklung) / PostgreSQL (Profil `prod`) · Thymeleaf
 
----
 
 ## Projektstruktur
 
-```
 frischcheck/
 ├── pom.xml
 ├── mvnw, mvnw.cmd, .mvn/                  Maven Wrapper (kein lokales Maven nötig)
@@ -72,7 +70,6 @@ frischcheck/
             ├── ProductServiceTest.java            Statuswechsel-Regeln
             ├── ExpiryCheckServiceTest.java        Nachricht & Versand
             └── notification/NotificationServiceTest.java
-```
 
 ## Warum diese Schichten?
 
@@ -88,14 +85,11 @@ frischcheck/
 
 **Ablauf-Stufen** (pro Kategorie konfigurierbar):
 
-```
 Tage bis Ablauf  < 0              -> ABGELAUFEN
 Tage bis Ablauf <= critical-days  -> KRITISCH
 Tage bis Ablauf <= warning-days   -> WARNUNG
 sonst                             -> OK
-```
 
----
 
 ## Starten
 
@@ -298,3 +292,5 @@ ABGELAUFEN (1)
 KRITISCH (1)
 - Schlagsahne (Milchprodukte) – 3 l – Kühlschrank – läuft morgen ab (30.09.2026)
 ```
+=======
+# frisch-check

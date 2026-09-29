@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' · FrischCheck'">FrischCheck</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+
+<header th:fragment="header" class="topbar">
+    <a th:href="@{/}" class="brand">🥬 FrischCheck</a>
+    <a th:href="@{/products/new}" class="btn btn-primary">+ Produkt</a>
+</header>
+
+<!-- Eine Produktkarte; p ist ein ProductResponse (Record -> Zugriff über p.name() usw.) -->
+<article th:fragment="productCard(p)" class="card"
+         th:classappend="${'level-' + #strings.toLowerCase(p.expiryLevel().name())}">
+    <div class="card-head">
+        <h3 th:text="${p.name()}">Sahne</h3>
+        <span class="badge" th:classappend="${'badge-' + #strings.toLowerCase(p.expiryLevel().name())}"
+              th:text="${p.expiryLevel().label}">Kritisch</span>
+    </div>
+    <p class="expiry">
+        <strong th:text="${p.expiryText()}">läuft morgen ab</strong>
+        · <span th:text="${#temporals.format(p.expiryDate(), 'dd.MM.yyyy')}">30.09.2026</span>
+    </p>
+    <p class="meta">
+        <span th:text="${p.quantity().stripTrailingZeros().toPlainString() + ' ' + p.unit().label}">3 l</span>
+        · <span th:text="${p.categoryName()}">Milchprodukte</span>
+        · <span th:text="${p.storageLocation().label}">Kühlschrank</span>
+    </p>
+    <div class="actions">
+        <form th:action="@{/products/{id}/status(id=${p.id()})}" method="post">
+            <input type="hidden" name="status" value="VERBRAUCHT">
+            <button type="submit" class="btn btn-secondary">✓ Verbraucht</button>
+        </form>
+        <form th:action="@{/products/{id}/status(id=${p.id()})}" method="post"
+              onsubmit="return confirm('Wirklich als weggeworfen markieren?');">
+            <input type="hidden" name="status" value="WEGGEWORFEN">
+            <button type="submit" class="btn btn-danger">🗑 Weggeworfen</button>
+        </form>
+    </div>
+</article>
+
+</body>
+</html>

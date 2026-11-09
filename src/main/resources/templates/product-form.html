@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Produkt erfassen')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="container">
+    <h2>Produkt erfassen</h2>
+
+    <form th:action="@{/products}" th:object="${form}" method="post" class="form" novalidate>
+
+        <label for="name">Name</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="z. B. Schlagsahne" autofocus
+               th:classappend="${#fields.hasErrors('name')} ? 'invalid'">
+        <small class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+
+        <label for="categoryId">Kategorie</label>
+        <select id="categoryId" th:field="*{categoryId}" th:classappend="${#fields.hasErrors('categoryId')} ? 'invalid'">
+            <option value="">– bitte wählen –</option>
+            <option th:each="c : ${categories}" th:value="${c.id()}"
+                    th:text="${c.name() + ' (Warnung ' + c.warningDays() + ' Tage vorher)'}">Frischware</option>
+        </select>
+        <small class="field-error" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></small>
+
+        <label for="storageLocation">Lagerort</label>
+        <select id="storageLocation" th:field="*{storageLocation}"
+                th:classappend="${#fields.hasErrors('storageLocation')} ? 'invalid'">
+            <option value="">– bitte wählen –</option>
+            <option th:each="l : ${locations}" th:value="${l}" th:text="${l.label}">Kühlschrank</option>
+        </select>
+        <small class="field-error" th:if="${#fields.hasErrors('storageLocation')}" th:errors="*{storageLocation}"></small>
+
+        <div class="row">
+            <div>
+                <label for="quantity">Menge</label>
+                <input type="number" id="quantity" th:field="*{quantity}" step="0.01" min="0" inputmode="decimal"
+                       th:classappend="${#fields.hasErrors('quantity')} ? 'invalid'">
+                <small class="field-error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></small>
+            </div>
+            <div>
+                <label for="unit">Einheit</label>
+                <select id="unit" th:field="*{unit}" th:classappend="${#fields.hasErrors('unit')} ? 'invalid'">
+                    <option value="">–</option>
+                    <option th:each="u : ${units}" th:value="${u}" th:text="${u.label}">kg</option>
+                </select>
+                <small class="field-error" th:if="${#fields.hasErrors('unit')}" th:errors="*{unit}"></small>
+            </div>
+        </div>
+
+        <div class="row">
+            <div>
+                <label for="expiryDate">Ablaufdatum (MHD)</label>
+                <input type="date" id="expiryDate" th:field="*{expiryDate}"
+                       th:classappend="${#fields.hasErrors('expiryDate')} ? 'invalid'">
+                <small class="field-error" th:if="${#fields.hasErrors('expiryDate')}" th:errors="*{expiryDate}"></small>
+            </div>
+            <div>
+                <label for="receivedDate">Eingangsdatum</label>
+                <input type="date" id="receivedDate" th:field="*{receivedDate}"
+                       th:classappend="${#fields.hasErrors('receivedDate')} ? 'invalid'">
+                <small class="field-error" th:if="${#fields.hasErrors('receivedDate')}" th:errors="*{receivedDate}"></small>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a th:href="@{/}" class="btn btn-secondary">Abbrechen</a>
+            <button type="submit" class="btn btn-primary">Speichern</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>

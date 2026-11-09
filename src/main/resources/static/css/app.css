@@ -1,0 +1,101 @@
+/* Mobile-first: optimiert für Handys in der Küche, skaliert auf Tablet/Desktop. */
+:root {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --text: #1f2328;
+    --muted: #656d76;
+    --border: #d8dee4;
+    --primary: #1a7f37;
+    --danger: #cf222e;
+    --expired: #8b0000;
+    --critical: #cf222e;
+    --warning: #bf8700;
+    --ok: #1a7f37;
+    --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+}
+
+.container { max-width: 720px; margin: 0 auto; padding: 16px; }
+
+/* Kopfzeile */
+.topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+.brand { font-weight: 700; font-size: 1.1rem; color: var(--text); text-decoration: none; }
+
+h2 { font-size: 1.15rem; margin: 24px 0 12px; }
+h2 small { font-weight: 400; color: var(--muted); font-size: .85rem; margin-left: 4px; }
+
+/* Buttons – groß genug für Finger (min. 44px) */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 0 16px;
+    border: 1px solid transparent; border-radius: var(--radius);
+    font: inherit; font-weight: 600; cursor: pointer; text-decoration: none;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border); }
+.btn-danger { background: var(--surface); color: var(--danger); border-color: var(--danger); }
+
+/* Hinweise */
+.alert { padding: 12px 14px; border-radius: var(--radius); margin-bottom: 12px; }
+.alert-success { background: #dafbe1; color: #116329; }
+.alert-error { background: #ffebe9; color: #a40e26; }
+.empty { color: var(--muted); }
+
+/* Produktkarten */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 6px solid var(--ok);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
+.card.level-abgelaufen { border-left-color: var(--expired); }
+.card.level-kritisch { border-left-color: var(--critical); }
+.card.level-warnung { border-left-color: var(--warning); }
+
+.card-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.card h3 { margin: 0; font-size: 1.05rem; }
+.card p { margin: 4px 0; }
+.meta { color: var(--muted); font-size: .9rem; }
+
+.badge {
+    padding: 2px 10px; border-radius: 999px;
+    font-size: .8rem; font-weight: 700; color: #fff; white-space: nowrap;
+}
+.badge-abgelaufen { background: var(--expired); }
+.badge-kritisch { background: var(--critical); }
+.badge-warnung { background: var(--warning); }
+.badge-ok { background: var(--ok); }
+
+.actions { display: flex; gap: 8px; margin-top: 10px; }
+.actions form { flex: 1; }
+.actions .btn { width: 100%; }
+
+/* Formular */
+.form { background: var(--surface); padding: 16px; border-radius: var(--radius); border: 1px solid var(--border); }
+.form label { display: block; font-weight: 600; margin: 14px 0 4px; }
+.form input, .form select {
+    width: 100%; min-height: 44px; padding: 8px 10px;
+    border: 1px solid var(--border); border-radius: 8px;
+    font: inherit; background: #fff;
+}
+.form .invalid { border-color: var(--danger); }
+.field-error { color: var(--danger); display: block; margin-top: 4px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }

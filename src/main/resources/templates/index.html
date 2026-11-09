@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Übersicht')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+
+<main class="container">
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <section>
+        <h2>Bald ablaufend <small>FEFO · Stand <span th:text="${#temporals.format(today, 'dd.MM.yyyy')}"></span></small></h2>
+        <p th:if="${#lists.isEmpty(expiring)}" class="empty">Alles im grünen Bereich – nichts läuft demnächst ab. 👍</p>
+        <th:block th:each="p : ${expiring}">
+            <div th:replace="~{fragments :: productCard(${p})}"></div>
+        </th:block>
+    </section>
+
+    <section>
+        <h2>Alle Produkte auf Lager <small th:text="${#lists.size(inStock)}">0</small></h2>
+        <p th:if="${#lists.isEmpty(inStock)}" class="empty">
+            Noch keine Produkte erfasst. <a th:href="@{/products/new}">Erstes Produkt anlegen</a>
+        </p>
+        <th:block th:each="p : ${inStock}">
+            <div th:replace="~{fragments :: productCard(${p})}"></div>
+        </th:block>
+    </section>
+</main>
+</body>
+</html>

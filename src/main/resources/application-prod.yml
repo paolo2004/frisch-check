@@ -1,0 +1,14 @@
+# Aktivieren mit: --spring.profiles.active=prod  (oder SPRING_PROFILES_ACTIVE=prod)
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/frischcheck}
+    username: ${DB_USERNAME:frischcheck}
+    password: ${DB_PASSWORD:frischcheck}
+  jpa:
+    hibernate:
+      # Für den Anfang ok – langfristig durch Flyway-Migrationen + "validate" ersetzen
+      ddl-auto: update
+  h2:
+    console:
+      enabled: false

@@ -1,0 +1,78 @@
+# Standard-Konfiguration (Entwicklung mit H2).
+# Für PostgreSQL: mit Profil "prod" starten (siehe application-prod.yml).
+
+server:
+  servlet:
+    session:
+      # keine ";jsessionid=..." in URLs
+      tracking-modes: cookie
+
+spring:
+  application:
+    name: FrischCheck
+  datasource:
+    # Datei-DB: Daten bleiben nach einem Neustart erhalten (Ordner ./data)
+    url: jdbc:h2:file:./data/restaurant-db
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  mvc:
+    format:
+      date: iso
+
+  # E-Mail (nur nötig, wenn app.notification.email.enabled=true), z. B. Gmail mit App-Passwort:
+  # mail:
+  #   host: smtp.gmail.com
+  #   port: 587
+  #   username: ${MAIL_USERNAME}
+  #   password: ${MAIL_PASSWORD}
+  #   properties:
+  #     mail.smtp.auth: true
+  #     mail.smtp.starttls.enable: true
+
+app:
+  timezone: Europe/Berlin
+
+  expiry:
+    # Sekunde Minute Stunde Tag Monat Wochentag -> täglich um 08:00 Uhr
+    check-cron: "0 0 8 * * *"
+    # Kategorien werden beim Start angelegt, falls sie noch nicht existieren.
+    # warning-days: ab so vielen Tagen vor Ablauf -> WARNUNG
+    # critical-days: ab so vielen Tagen vor Ablauf -> KRITISCH
+    categories:
+      - name: Frischware
+        warning-days: 5
+        critical-days: 2
+      - name: Fleisch & Fisch
+        warning-days: 3
+        critical-days: 1
+      - name: Milchprodukte
+        warning-days: 7
+        critical-days: 3
+      - name: Tiefkühlware
+        warning-days: 30
+        critical-days: 14
+      - name: Trockenware
+        warning-days: 30
+        critical-days: 14
+      - name: Getränke
+        warning-days: 60
+        critical-days: 30
+
+  notification:
+    email:
+      enabled: false
+      from: ${MAIL_FROM:frischcheck@example.com}
+      to:
+        - ${MAIL_TO:kueche@example.com}
+    telegram:
+      enabled: false
+      bot-token: ${TELEGRAM_BOT_TOKEN:}
+      chat-id: ${TELEGRAM_CHAT_ID:}
